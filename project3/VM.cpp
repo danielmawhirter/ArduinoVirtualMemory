@@ -1,7 +1,7 @@
 #include "VM.h"
 #include "Streaming.h"
 
-char & VM::operator [](unsigned address) {
+char& VM::operator[](const int address) {
   refCount++;
   unsigned pageNum = address >> 5;
   unsigned offset = address & 0x1F;
@@ -72,4 +72,4 @@ VM::VM() : SpiRam(SRAM_PIN, HOLD_PIN), refCount(0), faultCount(0), pageIndex(0) 
     physical[i] = new char[PAGE_SIZE];
 	pages[i] = -1;
   }
-};
+}
