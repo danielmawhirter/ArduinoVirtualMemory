@@ -1,7 +1,7 @@
 #include "VM.h"
 #include "Streaming.h"
 
-char& VM::operator[](const int address) {
+char& VM::operator[](const unsigned address) {
   refCount++;
   unsigned pageNum = address >> 5;
   unsigned offset = address & 0x1F;
@@ -38,17 +38,11 @@ char& VM::operator[](const int address) {
   } else {
 	if(VERBOSE) {
 		Serial << "\tempty slot in page table: " << pageIndex << "\n";
-		Serial << "\treading SRAM memory page: " << pages[pageIndex] << "\n";
+		Serial << "\treading SRAM memory page: " << pageNum << "\n";
 		Serial << "\tphysical addresss: " << offset << "\n";
 	}
   }
   //kicking out pages[pageIndex]
-  
-  if(VERBOSE) {
-	Serial << "PAGE FAULT!\n";
-	Serial << " " << address << "\n";
-	Serial << "\tpage = " << pageNum << ", offset = " << offset << "\n";
-  }
   //page in
   pages[pageIndex] = pageNum;
   SpiRam.read_page(pageNum, physical[pageIndex]);
@@ -65,7 +59,11 @@ double VM::getFaultRate() {
   return static_cast<double>(faultCount) / static_cast<double>(refCount);
 }
 
-VM::VM() : SpiRam(SRAM_PIN, HOLD_PIN), refCount(0), faultCount(0), pageIndex(0) {
+VM::VM() : refCount(0), faultCount(0), pageIndex(0)
+#ifndef USESD //if using sram, initialize it
+  , SpiRam(SRAM_PIN, HOLD_PIN)
+#endif
+{
   physical = new char*[TABLE_SIZE];
   pages = new int[TABLE_SIZE];
   for(int i = 0; i < TABLE_SIZE; i++) {

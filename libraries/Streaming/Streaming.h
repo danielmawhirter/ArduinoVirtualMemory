@@ -97,9 +97,9 @@ inline Print &operator <<(Print &obj, const _FLOAT &arg)
 // clever technique to allow for expressions like
 //   Serial << "Hello!" << endl;
 
-enum _EndLineCode { endl };
+/*enum _EndLineCode { endl };
 
 inline Print &operator <<(Print &obj, _EndLineCode arg) 
-{ obj.println(); return obj; }
+{ obj.println(); return obj; }*/
 
 #endif
