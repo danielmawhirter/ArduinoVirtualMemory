@@ -8,7 +8,7 @@
 #endif
 
 #define VERBOSE 1
-#define TABLE_SIZE 32
+#define TABLE_SIZE 2
 #define PAGE_SIZE 32
 #define SRAM_PIN 0
 #define HOLD_PIN 9

@@ -27,27 +27,31 @@ char& VM::operator[](const unsigned address) {
   if(VERBOSE) {
 	Serial << "PAGE FAULT!\n";
   }
-  if(pages[pageIndex] > 0) {
-	if(VERBOSE) {
-		Serial << "\tNO SPACE in page table\n";
-		Serial << "\tpage OUT: " << pages[pageIndex] << "\n";
-		Serial << "\tpage IN: " << pageNum << "\n";
-		Serial << "\tphysical address: " << offset << "\n";
-	}
+  if(pages[pageIndex] >= 0) {
+  	if(VERBOSE) {
+  		Serial << "\tNO SPACE in page table\n";
+  		Serial << "\tpage OUT: " << pages[pageIndex] << "\n";
+  		Serial << "\tpage IN: " << pageNum << "\n";
+  		Serial << "\tphysical address: " << offset+(pageIndex<<5) << "\n";
+	  }
+     //kicking out pages[pageIndex]
     SpiRam.write_page(pages[pageIndex], physical[pageIndex]);
   } else {
-	if(VERBOSE) {
-		Serial << "\tempty slot in page table: " << pageIndex << "\n";
-		Serial << "\treading SRAM memory page: " << pageNum << "\n";
-		Serial << "\tphysical addresss: " << offset << "\n";
-	}
+  	if(VERBOSE) {
+  		Serial << "\tempty slot in page table: " << pageIndex << "\n";
+  		Serial << "\treading SRAM memory page: " << pageNum << "\n";
+  		Serial << "\tphysical addresss: " << offset+(pageIndex<<5) << "\n";
+  	}
   }
-  //kicking out pages[pageIndex]
   //page in
   pages[pageIndex] = pageNum;
   SpiRam.read_page(pageNum, physical[pageIndex]);
   pageIndex = (pageIndex + 1) % TABLE_SIZE;
-  return physical[pageIndex][offset];
+  if (pageIndex != 0){
+      return physical[pageIndex-1][offset];
+  }else {
+      return physical[TABLE_SIZE-1][offset];
+  }
   
 }
 
@@ -68,6 +72,6 @@ VM::VM() : refCount(0), faultCount(0), pageIndex(0)
   pages = new int[TABLE_SIZE];
   for(int i = 0; i < TABLE_SIZE; i++) {
     physical[i] = new char[PAGE_SIZE];
-	pages[i] = -1;
+	  pages[i] = -1;
   }
 }
