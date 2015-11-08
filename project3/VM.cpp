@@ -63,11 +63,7 @@ double VM::getFaultRate() {
   return static_cast<double>(faultCount) / static_cast<double>(refCount);
 }
 
-VM::VM() : refCount(0), faultCount(0), pageIndex(0)
-#ifndef USESD //if using sram, initialize it
-  , SpiRam(SRAM_PIN, HOLD_PIN)
-#endif
-{
+VM::VM() : refCount(0), faultCount(0), pageIndex(0), SpiRam(0, CHIPSELECT_PIN) {
   physical = new char*[TABLE_SIZE];
   pages = new int[TABLE_SIZE];
   for(int i = 0; i < TABLE_SIZE; i++) {
@@ -75,3 +71,4 @@ VM::VM() : refCount(0), faultCount(0), pageIndex(0)
 	  pages[i] = -1;
   }
 }
+

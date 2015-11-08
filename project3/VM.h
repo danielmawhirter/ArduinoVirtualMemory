@@ -10,8 +10,7 @@
 #define VERBOSE 0
 #define TABLE_SIZE 16
 #define PAGE_SIZE 32
-#define SRAM_PIN 0
-#define HOLD_PIN 9
+#define CHIPSELECT_PIN 9
 
 class VM {
   private:
@@ -19,7 +18,7 @@ class VM {
     unsigned faultCount;
     char** physical;
    #ifdef USESD
-    SDspiRAM SpiRam = SDspiRAM::getInstance();
+    SDspiRAM SpiRam;
    #else
     SpiRAM SpiRam; 
    #endif
