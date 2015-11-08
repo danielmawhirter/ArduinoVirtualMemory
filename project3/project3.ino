@@ -13,7 +13,7 @@ void setup() {
   Serial.begin(57600);
   while (!Serial) {}  // wait for Leonardo
   VM vm = VM();
-  test4(vm);
+  vecSum(vm);
 }
 
 void test1(VM &vm) {
@@ -51,6 +51,20 @@ void test4(VM &vm) {
   vm[963] = 0xCD;
   vm[29775] = 0xEF;
   vm[1066] = 0x01;
+}
+
+void vecSum(VM &vm) {
+  //Serial << "writing\n";
+  for(int i=0; i<10000; i++) {
+    char x = i & 0X7F;
+    vm[i] = 1 + x;
+    vm[10000 + i] = 1 - x;
+  }
+  vm.resetFaultRate();
+  for(int i=0; i<10000; i++) {
+    Serial << (uint8_t)(vm[i] + vm[10000 + i]) << '\n';
+  }
+  Serial << vm.getFaultRate() << '\n';
 }
 
 void loop() {}

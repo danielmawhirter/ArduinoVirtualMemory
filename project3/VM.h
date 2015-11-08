@@ -1,14 +1,14 @@
 #pragma once
 
-#define USESD
+//#define USESD
 #ifdef USESD
  #include <SDspiRAM.h>
 #else
  #include <SpiRAM.h>
 #endif
 
-#define VERBOSE 1
-#define TABLE_SIZE 2
+#define VERBOSE 0
+#define TABLE_SIZE 16
 #define PAGE_SIZE 32
 #define SRAM_PIN 0
 #define HOLD_PIN 9
