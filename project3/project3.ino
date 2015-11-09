@@ -4,6 +4,7 @@
 #else
  #include <SpiRAM.h>
 #endif
+#include "morse.h"
 #include <Streaming.h>
 #include <SPI.h>
 #include "VM.h"
@@ -12,8 +13,9 @@
 void setup() {
   Serial.begin(57600);
   while (!Serial) {}  // wait for Leonardo
+  pinMode(13, OUTPUT);
   VM vm = VM();
-  vecSum(vm);
+  testMorse(vm);
 }
 
 void test1(VM &vm) {
@@ -65,6 +67,30 @@ void vecSum(VM &vm) {
     Serial << (uint8_t)(vm[i] + vm[10000 + i]) << '\n';
   }
   Serial << vm.getFaultRate() << '\n';
+}
+
+void thrashing(VM &vm) {
+  for(int i=0; i<10000; i++){
+    vm[i]=(char)i;
+  }
+  vm.resetFaultRate();
+  for(int j=0;j<16;j++){
+    for(int k = 0; k < 625; k++) {
+      Serial << (uint8_t)vm[j+(k<<4)] << '\n';
+    }
+  }
+  Serial << vm.getFaultRate() << '\n';
+}
+
+//capital lettern, numbers, and spaces only
+void testMorse(VM &vm) {
+  char* str = "HELLO FROM VIRTUAL MEMORY";
+  for(int i = 0; i < strlen(str); i++) {
+    vm[i << 4] = str[i];
+  }
+  for(int i = 0; i < strlen(str); i++) {
+    displayMorse(charToMorse(vm[i << 4]));
+  }
 }
 
 void loop() {}

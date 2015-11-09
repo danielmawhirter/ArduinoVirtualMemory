@@ -1,6 +1,6 @@
 #pragma once
 
-#define USESD
+//#define USESD
 #ifdef USESD
  #include <SDspiRAM.h>
 #else
