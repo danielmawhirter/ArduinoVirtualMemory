@@ -15,7 +15,13 @@ void setup() {
   while (!Serial) {}  // wait for Leonardo
   pinMode(13, OUTPUT);
   VM vm = VM();
-  testMorse(vm);
+  //test1(vm);
+  //test2(vm);
+  //test3(vm);
+  //test4(vm);
+  vecSum(vm);
+  //thrashing(vm);
+  //testMorse(vm);
 }
 
 void test1(VM &vm) {
@@ -29,7 +35,7 @@ void test1(VM &vm) {
 
 void test2(VM &vm) {
   //VERBOSE = 0; TABLE SIZE = 24; 
-    char *msg = "Hello from Virtual Memory!!!";
+  char *msg = "Hello from Virtual Memory!!!";
   Serial << "string length:" << strlen(msg) << "\n";
   for (int i = 0; i < strlen(msg); i++) {
     vm[i<<5] = msg[i];
@@ -70,13 +76,13 @@ void vecSum(VM &vm) {
 }
 
 void thrashing(VM &vm) {
-  for(int i=0; i<10000; i++){
-    vm[i]=(char)i;
+  for(int i=0; i<1024; i++){
+    vm[i]= i & 0XFF;
   }
   vm.resetFaultRate();
-  for(int j=0;j<16;j++){
-    for(int k = 0; k < 625; k++) {
-      Serial << (uint8_t)vm[j+(k<<4)] << '\n';
+  for(int j=0;j<32;j++){
+    for(int k = 0; k < 32; k++) {
+      Serial << (int8_t)vm[j+(k<<5)] << '\n';
     }
   }
   Serial << vm.getFaultRate() << '\n';
