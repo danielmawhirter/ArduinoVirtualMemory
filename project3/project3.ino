@@ -19,9 +19,9 @@ void setup() {
   //test2(vm);
   //test3(vm);
   //test4(vm);
-  vecSum(vm);
+  //vecSum(vm);
   //thrashing(vm);
-  //testMorse(vm);
+  testMorse(vm);
 }
 
 void test1(VM &vm) {

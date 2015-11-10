@@ -7,18 +7,18 @@ char& VM::operator[](const unsigned address) {
   unsigned offset = address & 0x1F;
   
   if(VERBOSE) {
-	Serial << "============================\n";
-	Serial << "requesting virtual address: " << address << "\n";
-	Serial << "\tpage = " << pageNum << ", offset = " << offset << "\n";
+  	Serial << "============================\n";
+  	Serial << "requesting virtual address: " << address << "\n";
+  	Serial << "\tpage = " << pageNum << ", offset = " << offset << "\n";
   }
   
   for(int i = 0; i < TABLE_SIZE; i++) {
     if(pages[i] == pageNum) {
-	  if(VERBOSE) {
-		Serial << "PAGE FOUND!\n";
-		Serial << "\tpage table entry: " << i << "\n";
-		Serial << "\tphysical address: " << offset << "\n";
-	  }
+  	  if(VERBOSE) {
+    		Serial << "PAGE FOUND!\n";
+    		Serial << "\tpage table entry: " << i << "\n";
+    		Serial << "\tphysical address: " << offset << "\n";
+  	  }
       return physical[i][offset];
     }
   }
@@ -49,7 +49,7 @@ char& VM::operator[](const unsigned address) {
   pageIndex = (pageIndex + 1) % TABLE_SIZE;
   if (pageIndex != 0){
       return physical[pageIndex-1][offset];
-  }else {
+  } else {
       return physical[TABLE_SIZE-1][offset];
   }
   

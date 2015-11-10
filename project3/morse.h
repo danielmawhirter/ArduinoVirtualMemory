@@ -83,16 +83,16 @@ void displayMorse(char* string) {
   for(int i = 0; i < strlen(string); i++) {
     if(string[i] == '.') {
       digitalWrite(13, HIGH);
-	  delay(100);
-	  digitalWrite(13, LOW);
-	  delay(100);
+  	  delay(100);
+  	  digitalWrite(13, LOW);
+  	  delay(100);
     } else if(string[i] == '-') {
       digitalWrite(13, HIGH);
-	  delay(300);
-	  digitalWrite(13, LOW);
-	  delay(100);
+  	  delay(300);
+  	  digitalWrite(13, LOW);
+  	  delay(100);
     } else if(string[i] == ' ') {
-	  delay(200);
+	    delay(200);
     } 
   }
 }
