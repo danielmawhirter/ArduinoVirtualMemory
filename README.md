@@ -1,5 +1,5 @@
 # ArduinoVirtualMemory
-Implementation of virtual memory on the Arduino Fio micorcontroller with GeoMote 3 board. We are storing data on *23k256 SPI SRAM* chip by using SpiSRAM Arduino libbrary which provides read and write operations for the chips.
+Implementation of virtual memory on Arduino. A #define guard in VM.h switches this project between using the SpiRAM chip on the Fio and using an SD card on an Arduino Micro. Both should work, but we were unable to get our SpiRAM to respond. It works fully with the SD card.
 
 #Name
 - Daniel Mawhirter
@@ -17,8 +17,7 @@ Implementation of virtual memory on the Arduino Fio micorcontroller with GeoMote
 * --/README.md
 
 #Features
-* Morse Code Converter
+* Morse Code Converter (flashing LED)
 * Using SD card for storage
 
-#Analysis(Extra Credit)
-The page fault rate for the vector summation is 0.03 while the thrashing reports at a rate of 0.5.
+The page fault rate for the vector summation is 0.03 while the thrashing reports at a rate of 1.0.
